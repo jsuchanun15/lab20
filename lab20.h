@@ -23,8 +23,11 @@ class Unit{
 		int hpmax;
 		int atk;
 		int def;
+		int hptemp;
+		int atktemp;
+		int deftemp;
 		bool guard_on;
-		bool dodge_on; 
+		bool dodge_on=false; 
 		Equipment *equipment; 
 	public:			
 		Unit(string,string); 
@@ -55,6 +58,35 @@ Unit::Unit(string t,string n){
 	hp = hpmax;	
 	guard_on = false;
 	equipment = NULL;
+	hptemp = hpmax;
+	atktemp = atk;
+	deftemp = def;
+}
+
+Equipment::Equipment(int hpmax,int atk,int def){
+    this->hpmax = hpmax;
+    this->atk = atk;
+    this->def = def;
+}
+
+void Unit::equip(Equipment *equipment){
+    hpmax = hptemp;
+    atk = atktemp;
+    def = deftemp;
+    if(hp>hpmax)
+            hp = hpmax;
+    vector<int> equipmentState = equipment->getStat();
+    hpmax += equipmentState[0];
+    atk += equipmentState[1];
+    def += equipmentState[2];
+}
+
+vector<int> Equipment::getStat(){
+    vector<int> equipmentData;
+    equipmentData.push_back(this->hpmax);
+    equipmentData.push_back(this->atk);
+    equipmentData.push_back(this->def);
+    return equipmentData;
 }
 
 void Unit::showStatus(){
